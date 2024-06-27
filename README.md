@@ -2,8 +2,8 @@
 
 <div align="center">
   <img src="https://github.com/YOOSUSANG/pillMate/assets/41133135/c44c025a-acd1-41ef-9674-47f0a0ebb1fb" alt="PillMate Logo" />
-  <p>유지 보수전:<a href="https://drive.google.com/file/d/1t-va1Y_2JGM0TbcEnPiRAXU4lEiEW0yp/view">프로젝트 결과</a></p>
-  <p>유지 보수전:<a href="https://drive.google.com/file/d/1BxManXLhECmOwOTU7Xfixbqv6DlypRG7/view">시연영상</a></p>
+   <p>유지 보수전:<a href="https://drive.google.com/file/d/1t-va1Y_2JGM0TbcEnPiRAXU4lEiEW0yp/view">프로젝트 결과</a></p>
+   <p>유지 보수전:<a href="https://drive.google.com/file/d/1BxManXLhECmOwOTU7Xfixbqv6DlypRG7/view">시연발표 영상</a></p>
 </div>
 <hr>
 
