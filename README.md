@@ -19,11 +19,13 @@ PillMate는 사용자가 의약품을 검색할 때 겪는 불편함을 해소�
 ![캡처_2024_06_27_02_04_42_811](https://github.com/YOOSUSANG/pillMate/assets/41133135/3c267694-caa3-4a4b-b6a9-756e6592d33f)
 
 
+## 기능추가
+2024.07.31까지 추가될 예정
 ## checkpoint
 [다운로드](https://drive.google.com/file/d/1-A-VupYYIKOeoEkM1xJyVDJ7E-GNZN-p/view?usp=drive_link)
 
 ## 팀원
 |이름|학과|역할|
 |------|---|---|
-|조동인|디지털미디어학과|프론트엔드,  기획|
-|유수상|디지털미디어학과|백엔드,  AI|
+|조동인|디지털미디어학과|프론트엔드,  기획, AI|
+|유수상|디지털미디어학과|프론트엔드, 백엔드,  AI|
