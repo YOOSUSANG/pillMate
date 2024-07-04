@@ -11,7 +11,8 @@ app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
-UPLOAD_FOLDER = 'imagetest/findimage'
+# 인식된 이미지가 들어갈 폴더 경로
+UPLOAD_FOLDER = ''
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Create "uploads" directory if it doesn't exist
@@ -50,13 +51,15 @@ def upload_file():
         resize_image(filename)
 
         # Call the other Python script
-        script_path = '자신 경로 지정'
+        # pillResnet.py를 불러와주세요.
+        script_path = ''
 
         # Use subprocess.run to capture the output
         subprocess.run(['python', script_path])
 
         # Read the output file
-        with open('C:/spring/pillmate/src/main/pillmate-project/public/output.txt', 'r', encoding='utf-8') as file:
+        # 약 이름이 저장된 경로를 열어주세요.
+        with open('', 'r', encoding='utf-8') as file:
             output_result = file.read()
 
         print("Emitting prediction result:", output_result)
