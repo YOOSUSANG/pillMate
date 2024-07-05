@@ -28,9 +28,6 @@ CUDA version은 Compute capability 따라 다르므로 개인 Compute capability
 + Pytorch 1.12.x ~ 1.13.x
 + numpy 1.9x
 
-  
-
-
 ## 기능추가
 2024.07.31까지 추가될 예정
 ## checkpoint
@@ -41,3 +38,6 @@ resnet/resnetTest/checkpoint/resnet18_pill.pth
 |------|---|---|
 |조동인|디지털미디어학과|프론트엔드,  기획, AI|
 |유수상|디지털미디어학과|프론트엔드, 백엔드,  AI|
+
+## 네트워크 참고
+https://github.com/kuangliu/pytorch-cifar/tree/master
