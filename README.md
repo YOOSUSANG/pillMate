@@ -28,7 +28,7 @@ CUDA version은 Compute capability 따라 다르므로 개인 Compute capability
 + Pytorch 1.12.x ~ 1.13.x
 + numpy 1.9x
 
-## 유지보수 내용
+## 유지보수 계획
 - [ ] OAuth2 소셜 로그인 (네이버, 카카오, 구글) + JWT 추가
 - [ ] 이미지 저장소 AWS S3로 변경
 - [ ] 약품 구매시 카카오페이를 통한 결제서비스 추가
