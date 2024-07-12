@@ -1,15 +1,17 @@
 package plaform.pillmate_spring;
 
 import jakarta.transaction.Transactional;
+import org.apache.coyote.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import plaform.pillmate_spring.domain.History;
-import plaform.pillmate_spring.domain.User;
-import plaform.pillmate_spring.service.HistoryService;
-import plaform.pillmate_spring.service.UserService;
+import plaform.pillmate_spring.domain.dto.MemberLoginOAuth;
+import plaform.pillmate_spring.domain.entity.History;
+import plaform.pillmate_spring.domain.entity.Member;
+import plaform.pillmate_spring.domain.service.HistoryService;
+import plaform.pillmate_spring.domain.service.MemberService;
 
 import java.util.List;
 
@@ -21,54 +23,55 @@ public class HistoryTest {
     @Autowired
     HistoryService historyService;
     @Autowired
-    UserService userService;
-
+    MemberService memberService;
+    Long memberId;
     @BeforeEach
-    void 시작후_초기화() {
+    void 시작후_초기화() throws BadRequestException {
         historyService.AllPillRemove();
-        userService.removeAllUser();
+        memberService.removeAllUser();
+        MemberLoginOAuth memberOne = MemberLoginOAuth.builder()
+                .username("m1")
+                .email("hello@h.com")
+                .name("memberOne")
+                .password("1234").build();
+        Long joinId = memberService.join((memberOne));
+        memberId = joinId;
     }
 
     @DisplayName("유저 복용 이력 추가")
     @Test
-    void 복용이력_추가(){
-        User userOne = new User("ajou123", "hello1@naver.com", "12345678");
-        userService.join((userOne));
-        History hisOne = new History(userOne.getId(), "약이름1");
-        History hisTwo = new History(userOne.getId(), "약이름2");
+    void 복용이력_추가() throws BadRequestException {
+        History hisOne = new History(memberId, "약이름1");
+        History hisTwo = new History(memberId, "약이름2");
         historyService.join(hisOne);
         historyService.join(hisTwo);
-        List<History> takePill = historyService.findTakePill(userOne.getId());
+        List<History> takePill = historyService.findTakePill(memberId);
         assertThat(takePill.size()).isEqualTo(2);
     }
 
     @DisplayName("유저 복용 이력 삭제")
     @Test
     void 복용이력_삭제(){
-        User userOne = new User("ajou123", "hello1@naver.com", "12345678");
-        userService.join((userOne));
-        History hisOne = new History(userOne.getId(), "약이름1");
-        History hisTwo = new History(userOne.getId(), "약이름2");
+        History hisOne = new History(memberId, "약이름1");
+        History hisTwo = new History(memberId, "약이름2");
         historyService.join(hisOne);
         historyService.join(hisTwo);
         String pillName = "약이름1";
-        historyService.removeTakePill(userOne.getId(),pillName);
-        List<History> takePill = historyService.findTakePill(userOne.getId());
+        historyService.removeTakePill(memberId,pillName);
+        List<History> takePill = historyService.findTakePill(memberId);
         assertThat(takePill.size()).isEqualTo(1);
     }
 
     @DisplayName("유저 복용 이력 삭제 실패")
     @Test
     void 복용이력_삭제실패(){
-        User userOne = new User("ajou123", "hello1@naver.com", "12345678");
-        userService.join((userOne));
-        History hisOne = new History(userOne.getId(), "약이름1");
-        History hisTwo = new History(userOne.getId(), "약이름2");
+        History hisOne = new History(memberId, "약이름1");
+        History hisTwo = new History(memberId, "약이름2");
         historyService.join(hisOne);
         historyService.join(hisTwo);
         String pillName = "약이름3";
-        historyService.removeTakePill(userOne.getId(),pillName);
-        List<History> takePill = historyService.findTakePill(userOne.getId());
+        historyService.removeTakePill(memberId,pillName);
+        List<History> takePill = historyService.findTakePill(memberId);
         assertThat(takePill.size()).isEqualTo(2);
     }
 }
