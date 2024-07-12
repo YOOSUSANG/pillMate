@@ -1,10 +1,10 @@
-package plaform.pillmate_spring.service;
+package plaform.pillmate_spring.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import plaform.pillmate_spring.domain.History;
-import plaform.pillmate_spring.repository.HistoryRepository;
+import plaform.pillmate_spring.domain.entity.History;
+import plaform.pillmate_spring.domain.repository.HistoryRepository;
 
 import java.util.List;
 

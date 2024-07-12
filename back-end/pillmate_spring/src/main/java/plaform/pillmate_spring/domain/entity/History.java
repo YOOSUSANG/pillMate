@@ -1,11 +1,10 @@
-package plaform.pillmate_spring.domain;
+package plaform.pillmate_spring.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="history_table")
 @Setter @Getter
 public class History {
     @Id

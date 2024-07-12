@@ -1,8 +1,8 @@
-package plaform.pillmate_spring.repository;
+package plaform.pillmate_spring.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import plaform.pillmate_spring.domain.History;
+import plaform.pillmate_spring.domain.entity.History;
 
 import java.util.List;
 
