@@ -6,28 +6,28 @@ import {pillColorList} from "../utils/pillColor";
 import {PillTypeList} from "../utils/PillType";
 import {PillShapeList} from "../utils/PillShape";
 import {useNavigate} from "react-router-dom";
-import {pillHandlerContext} from "../App";
+import {pillHandlerContext, PillMateLoginStateContext} from "../App";
 import {pillAllInformation} from "../utils/PillAllInformation"
 import styled from 'styled-components'
-
-
+import useAuthorization from "../validaiton/useauthorization";
 /*
     약 일반 검색 페이지
 */
+const springUrl = "http://localhost:8080/"
 // 이부분은 리렌더될 떄 영향을 받지 않는다.
 const pillAllList = pillAllInformation();
 const PillGeneralSearch = () => {
+    useAuthorization()
     const [inputValue, setInputValue] = useState('');
     const [isHaveInputValue, setIsHaveInputValue] = useState(false)
     const [pillAllInformationList, setPillAllInformationList] = useState(pillAllList)
     const [dropDownItemIndex, setDropDownItemIndex] = useState(-1)
+    const {loginData,setLoginData} = useContext(PillMateLoginStateContext);
 
     const {recShapeState} = useContext(pillHandlerContext)
     const navigate = useNavigate()
     const handleSubmit = useCallback(() => {
-
         navigate("/generalSearch/list")
-
     }, [])
     const showDropDownList = () => {
         if (inputValue === "") {
@@ -67,8 +67,24 @@ const PillGeneralSearch = () => {
         }
     }
     useEffect(showDropDownList, [inputValue])
+    // mount시 jwt정보로 data받아오기
+    useEffect(() =>{
+        fetch(springUrl + "user", {
+            method: "GET",
+            credentials: 'include',
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data)
+                setLoginData(data)
+                localStorage.setItem("userLogin", JSON.stringify(data))
+            })
+            .catch((error) => {
+                setLoginData({})
+            })
+    },[])
 
-
+     
 
     const goProfile = () => {
         navigate("/PillProfile")

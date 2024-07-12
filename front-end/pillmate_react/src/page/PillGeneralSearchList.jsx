@@ -3,12 +3,14 @@ import PillListForm from "../component/PillListForm";
 import React, {useContext, useEffect, useState} from "react";
 import PillAllNav from "../component/PillAllNav";
 import {useNavigate} from "react-router-dom";
+import useAuthorization from '../validaiton/useauthorization';
 
 /*
     약 일반 검색 결과인 약 리스트 페이지
 */
 
 const PillGeneralSearchList = () => {
+    useAuthorization()
     const [currentSearch, setCurrentSearch] = useState({})
     const [pillList, setPillList] = useState([])
     const [pillListTextContains, setPillListTextContains] = useState([])

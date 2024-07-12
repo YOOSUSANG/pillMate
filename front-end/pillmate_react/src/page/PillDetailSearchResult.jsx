@@ -8,10 +8,11 @@ import {useNavigate} from "react-router-dom";
 import {pillHandlerContext} from "../App"
 import {toast, ToastContainer} from "react-toastify";
 import PillAllNav from "../component/PillAllNav";
+import useAuthorization from "../validaiton/useauthorization";
 
 
 const PillDetailSearchResult = () => {
-
+    useAuthorization()
     const navigate = useNavigate()
     const [detailState, setDetailState] = useState({})
     const [modalIsOpen, setModalIsOpen] = useState(false);

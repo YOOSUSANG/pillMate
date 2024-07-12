@@ -3,9 +3,11 @@ import PillHeader from '../component/PillHeader';
 import {pillAllInformation} from "../utils/PillAllInformation";
 import PillDetails from "../component/PillDetails";
 import {useNavigate} from "react-router-dom";
+import useAuthorization from '../validaiton/useauthorization';
 
 const pillAllList = pillAllInformation();
 const PillImageFindSuccess = () => {
+    useAuthorization()
     const [predictionResult, setPredictionResult] = useState('');
     const [predictionList, setPredictionList] = useState([])
     const navigate = useNavigate()

@@ -4,9 +4,11 @@ import React, {useEffect, useState} from "react";
 import PillNav from "../component/PillNav";
 import PillAllNav from "../component/PillAllNav";
 import {useNavigate} from "react-router-dom";
+import useAuthorization from "../validaiton/useauthorization";
 
 
 const PillKakaoMap = () => {
+    useAuthorization()
     const [markers, setMarkers] = useState([]);
     const [map, setMap] = useState();
     const [searchText, setSearchText] = useState("");

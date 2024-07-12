@@ -4,6 +4,7 @@ import PillListForm from "../component/PillListForm";
 import {ToastContainer} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 import {pillAllInformation} from "../utils/PillAllInformation";
+import useAuthorization from "../validaiton/useauthorization";
 
 
 /*
@@ -12,6 +13,7 @@ import {pillAllInformation} from "../utils/PillAllInformation";
 
 const pillAllList = pillAllInformation();
 const PillRecord = () => {
+    useAuthorization()
     const [pillRecordList, setPillRecordList] = useState((JSON.parse(localStorage.getItem("takingStatus"))))
     const navigate = useNavigate()
     console.log(pillRecordList)

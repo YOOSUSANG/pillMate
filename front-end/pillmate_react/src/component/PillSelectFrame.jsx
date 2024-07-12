@@ -22,4 +22,4 @@ const PillSelectFrame = ({text, list}) => {
         </div>
     )
 }
-export default React.memo(PillSelectFrame);
+export default PillSelectFrame;

@@ -8,7 +8,6 @@ import PillImageSearch from "./page/PillImageSearch";
 import Login from "./page/PillLogin"
 import PillProfile from "./page/PillProfile"
 import PillMyProfile from "./page/PillMyProfile";
-import PillRegistration from "./page/PillRegistration"
 import 'react-toastify/dist/ReactToastify.css';
 import {toast} from "react-toastify";
 import PillGeneralSearchList from "./page/PillGeneralSearchList";
@@ -16,6 +15,7 @@ import PillDetailSearchResult from "./page/PillDetailSearchResult";
 import PillImageFindSuccess from "./page/PillImageFindSuccess";
 import  PillDetailRecordResult from "./page/PillDetailRecordResult"
 import PillKakaoMap from './page/PillKakaoMap';
+import Notfound from './page/Notfound';
 const springUrl = "http://localhost:8080/"
 const pillInformationClickReducer = (state, action) => {
     let newState = {}
@@ -196,9 +196,8 @@ function App() {
                           <Route path={'/Login'} element={<Login></Login>}></Route>
                           <Route path={'/PillProfile'} element={<PillProfile></PillProfile>}></Route>
                           <Route path={'/PillMyProfile'} element={<PillMyProfile></PillMyProfile>}></Route>
-                          <Route path={'/PillRegistration'}
-                                  element={<PillRegistration></PillRegistration>}></Route>
                           <Route path={"/map"} element={<PillKakaoMap></PillKakaoMap>}></Route>
+                          <Route path="*" element = {<Notfound/>}></Route>
                       </Routes>
                       </div>
                 </pillDetailsContext.Provider>

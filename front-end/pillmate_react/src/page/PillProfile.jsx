@@ -2,18 +2,17 @@ import React, {useState, useContext} from 'react';
 import PillHeader from "../component/PillHeader";
 import {PillMateLoginStateContext} from "../App";
 import {useNavigate} from "react-router-dom";
-
+import pandaLogo from "../assets/pandalogo.png"
 import {pillHandlerContext} from "../App"
 import {pillAllInformation} from "../utils/PillAllInformation";
+import useAuthorization from '../validaiton/useauthorization';
 
 const springUrl = "http://localhost:8080/"
 const pillAllList = pillAllInformation();
 const PillProfile = () => {
+    useAuthorization()
     const {loginData, setLoginData} = useContext(PillMateLoginStateContext);
     const {takingDispatch} = useContext(pillHandlerContext);
-    const [id, setId] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const takeFetchGet = (baseUrl, subUrl, userId) => {
@@ -33,14 +32,28 @@ const PillProfile = () => {
             })
 
         }
-
     }
-
-    const goHome = () => {
-        navigate("/")
-        localStorage.setItem("userLogin", JSON.stringify({}))
-        localStorage.setItem("takingStatus", JSON.stringify([]))
-        setLoginData({"check": true})
+    //jwt 로그아웃시 실행
+    const jwtLogout = (baseUrl, subUrl) => {
+        fetch(baseUrl + subUrl, {
+            method: "POST",
+            credentials: 'include'
+        })
+        .then((res) => {
+            // 상태 코드 확인
+            if (res.status === 200) { // 200 OK
+              
+                localStorage.setItem("userLogin", JSON.stringify({}))
+                localStorage.setItem("takingStatus", JSON.stringify([]))
+                setLoginData({"check": true})
+                navigate("/")
+            } else {
+                throw new Error('Logout failed with status: ' + res.status);
+            }
+        })
+        .catch((error) => {
+            alert(error);
+        });
     }
     const goProfile = () => {
         navigate("/PillProfile")
@@ -66,12 +79,12 @@ const PillProfile = () => {
         <div>
             <PillHeader onClick={goProfile}/>
             <div className="profile">
-                <img className="profileImage" src={loginData["userImg"]} alt="Panda Logo"/>
-                <p style={{fontSize:"18px"}}>{loginData["userNickname"]}</p>
+                <img className="profileImage" src={pandaLogo} alt="Panda Logo"/>
+                <p style={{fontSize:"18px"}}>{loginData["nickname"]}</p>
 
                 <div className="menu">
                     <button type="button" className="menu-button" onClick={goMyProfile}>내 정보</button>
-                    <button type="button" className="menu-button" style={{color: '#FF5151'}} onClick={goHome}>로그아웃
+                    <button type="button" className="menu-button" style={{color: '#FF5151'}} onClick={() => jwtLogout(springUrl,"logout")}>로그아웃
                     </button>
                 </div>
             </div>

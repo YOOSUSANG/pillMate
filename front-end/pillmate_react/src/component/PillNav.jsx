@@ -58,4 +58,4 @@ const PillNav = ({leftChild, subLineOne, centerChild, subLineTwo, rightChild, st
         </nav>
     )
 }
-export default React.memo(PillNav);
+export default PillNav;

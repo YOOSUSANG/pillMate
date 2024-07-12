@@ -7,4 +7,4 @@ const PillHeader = ({homeText,onClick}) => {
     )
 }
 
-export default React.memo(PillHeader);
+export default PillHeader;

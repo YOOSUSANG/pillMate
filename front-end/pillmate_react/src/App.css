@@ -53,7 +53,17 @@ body {
     padding-left: 20px;
     padding-right: 20px;
 }
+/* NotFound */
+.notfound{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 
+}
+.notfound > div{
+    text-align: center;
+}
 /*PillHeader.js*/
 .head_pillMate {
     margin-top: 10px;

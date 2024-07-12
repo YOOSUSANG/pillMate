@@ -5,9 +5,11 @@
 import React, {useContext, useEffect, useState} from "react";
 import PillHeader from "../component/PillHeader";
 import {useNavigate} from "react-router-dom";
+import useAuthorization from "../validaiton/useauthorization";
 
 
 const PillDetailTakeResult = () => {
+    useAuthorization()
 
     const [detailState, setDetailState] = useState({})
     const navigate  =useNavigate()

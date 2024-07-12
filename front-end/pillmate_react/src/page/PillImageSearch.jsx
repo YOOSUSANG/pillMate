@@ -5,11 +5,13 @@ import {useNavigate} from "react-router-dom";
 import axios from 'axios'
 import imageSearchSampleImage from './../assets/imageSearchSampleImage.png'
 import {toast, ToastContainer} from "react-toastify";
+import useAuthorization from "../validaiton/useauthorization";
 /*
     약 이미지 검색 페이지
 */
 
 const PillImageSearch = () => {
+    useAuthorization()
     const fileInputRef = useRef(null);
     const navigate = useNavigate()
     const [file, setFile] = useState(null);
