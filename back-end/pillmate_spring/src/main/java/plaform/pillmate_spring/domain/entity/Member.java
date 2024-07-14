@@ -44,14 +44,18 @@ public class Member {
     public void changeGender(String gender) {
         this.gender = gender;
     }
+    public void changeProfileImgUrl(String profileImgUrl) {
+        this.profileImgUrl = profileImgUrl;
+    }
 
 
     // ***** 생성 메서드 *****
-    public static Member createMemberByOAuth(String username, String name, String nickname, String email, String gender, String role) {
+    public static Member createMemberByOAuth(String username, String name, String nickname, String email, String profileImgUrl, String gender, String role) {
         Member member = Member.builder()
                 .username(username)
                 .name(name)
                 .nickName(nickname)
+                .profileImgUrl(profileImgUrl)
                 .gender(gender)
                 .password("default")
                 .role(role)
