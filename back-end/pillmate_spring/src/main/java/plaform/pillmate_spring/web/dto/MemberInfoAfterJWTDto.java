@@ -14,10 +14,12 @@ public class MemberInfoAfterJWTDto {
     private String name;
     private String email;
     private String nickname;
+    private String profileImageUrl;
 
     public MemberInfoAfterJWTDto(Member member) {
         this.name = member.getName();
         this.email = member.getEmail();
         this.nickname = member.getNickName();
+        this.profileImageUrl = member.getProfileImgUrl();
     }
 }

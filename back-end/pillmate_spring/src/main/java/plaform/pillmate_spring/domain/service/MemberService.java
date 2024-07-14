@@ -22,7 +22,7 @@ public class MemberService {
     public Long join(MemberLoginOAuth memberLoginOAuth) throws BadRequestException {
         Optional<Member> findOptionalMember = memberRepository.findByUsername(memberLoginOAuth.getUsername());
         ValidationService.validationLoginMember(findOptionalMember);
-        Member member = Member.createMemberByOAuth(memberLoginOAuth.getUsername(), memberLoginOAuth.getName(), memberLoginOAuth.getNickname(), memberLoginOAuth.getEmail(), memberLoginOAuth.getGender(), memberLoginOAuth.getRole());
+        Member member = Member.createMemberByOAuth(memberLoginOAuth.getUsername(), memberLoginOAuth.getName(), memberLoginOAuth.getNickname(), memberLoginOAuth.getEmail(), memberLoginOAuth.getProfileImageUrl(), memberLoginOAuth.getGender(), memberLoginOAuth.getRole());
         Member joinMember = memberRepository.save(member);
         return joinMember.getId();
     }
@@ -31,7 +31,7 @@ public class MemberService {
     public void dataUpdate(MemberLoginOAuth memberLoginOAuth) throws BadRequestException {
         Optional<Member> findOptionalMember = memberRepository.findByUsername(memberLoginOAuth.getUsername());
         Member member = ValidationService.validationMember(findOptionalMember);
-        Member.updateMemberByOAuth(member, memberLoginOAuth.getName(),memberLoginOAuth.getNickname() ,memberLoginOAuth.getEmail(),memberLoginOAuth.getGender() ,memberLoginOAuth.getRole());
+        Member.updateMemberByOAuth(member, memberLoginOAuth.getName(), memberLoginOAuth.getNickname(), memberLoginOAuth.getEmail(), memberLoginOAuth.getGender(), memberLoginOAuth.getRole());
     }
 
     public Member find(String email) throws BadRequestException {
@@ -69,5 +69,9 @@ public class MemberService {
 
     }
 
-
+    @Transactional
+    public void profileUpdate(String username, String url) throws BadRequestException {
+        Member member = findUsername(username);
+        member.changeProfileImgUrl(url);
+    }
 }
