@@ -298,10 +298,12 @@ body {
 .MyButton_MyImageChange{
     color: #64C964;
     background-color: #C7EFC7;
-    font-size: 14px;
+    font-size: 10px;
+    border: none;
     margin-bottom: 10px;
     border-radius: 5px;
     margin-left: 100px;
+    padding: 5px 5px;
 }
 
 .caution {
@@ -818,7 +820,6 @@ body {
     text-align: center;
     justify-content: center;
     align-items: center;
-
 }
 .pill_profile_frame .profileText{
     margin-left: 300px;

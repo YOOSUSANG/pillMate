@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import PillHeader from "../component/PillHeader";
 import {PillMateLoginStateContext} from "../App";
 import {useNavigate} from "react-router-dom";
@@ -13,6 +13,7 @@ const PillProfile = () => {
     useAuthorization()
     const {loginData, setLoginData} = useContext(PillMateLoginStateContext);
     const {takingDispatch} = useContext(pillHandlerContext);
+     const [profile,setProfile] = useState(loginData["profileImageUrl"])
     const navigate = useNavigate();
 
     const takeFetchGet = (baseUrl, subUrl, userId) => {
@@ -75,11 +76,19 @@ const PillProfile = () => {
             navigate("/record")
         }, 50);
     }
+
+    useEffect(() => {
+        // 페이지 로드 시 로컬 스토리지에서 데이터를 가져와 상태에 설정
+        const storedLoginData = JSON.parse(localStorage.getItem("userLogin"));
+        if (storedLoginData) {
+            setProfile(storedLoginData.profileImageUrl);
+        }
+    }, []);
     return (
         <div>
             <PillHeader onClick={goProfile}/>
             <div className="profile">
-                <img className="profileImage" src={pandaLogo} alt="Panda Logo"/>
+                <img className="profileImage" src={profile} alt="Panda Logo"/>
                 <p style={{fontSize:"18px"}}>{loginData["nickname"]}</p>
 
                 <div className="menu">
