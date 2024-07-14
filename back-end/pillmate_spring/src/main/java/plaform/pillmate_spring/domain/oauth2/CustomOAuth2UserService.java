@@ -48,11 +48,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
         // username unique value
         String username = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
+        String initProfile = "https://pillmate-s3-1.s3.ap-northeast-2.amazonaws.com/pandalogo.png";
         MemberLoginOAuth memberOauth2Dto = MemberLoginOAuth.builder()
                 .email(oAuth2Response.getEmail())
                 .username(username)
                 .name(oAuth2Response.getName())
                 .nickname(oAuth2Response.getNickname())
+                .profileImageUrl(initProfile)
                 .gender(oAuth2Response.getGender())
                 .role("ROLE_USER")
                 .build();
