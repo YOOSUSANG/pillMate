@@ -30,7 +30,7 @@ public class PillController {
         String username = customOAuth2User.getUsername();
         Member member = memberService.findUsername(username);
         MemberInfoAfterJWTDto memberInfoAfterJWTDto = new MemberInfoAfterJWTDto(member);
-        log.info("user 들어옴");
+        log.info("user complete");
         return memberInfoAfterJWTDto;
     }
     @PostMapping("/validation/jwt")
