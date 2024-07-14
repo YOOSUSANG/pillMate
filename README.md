@@ -20,7 +20,7 @@ PillMate는 사용자가 의약품을 검색할 때 겪는 불편함을 해소�
 
 
 ## 기능추가
-2024.07.31까지 추가될 예정
+Check in main branch
 ## checkpoint
 [다운로드](https://drive.google.com/file/d/1-A-VupYYIKOeoEkM1xJyVDJ7E-GNZN-p/view?usp=drive_link)
 
