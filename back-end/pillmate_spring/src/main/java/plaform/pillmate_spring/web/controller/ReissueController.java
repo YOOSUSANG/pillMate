@@ -1,6 +1,10 @@
 package plaform.pillmate_spring.web.controller;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,6 +23,7 @@ import java.util.Date;
 
 @Slf4j
 @RestController
+@Tag(name = "JWT 토큰 재발급 API", description = "AccessToken, RefreshToken")
 @RequiredArgsConstructor
 public class ReissueController {
 
@@ -26,6 +31,10 @@ public class ReissueController {
     private final RedisRefreshTokenRepository redisRefreshTokenRepository;
 
 
+    @Operation(summary = "refreshToken 재발급")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "refreshToken 재발급 성공")
+    })
     //access 토큰이 만료될 경우 여기로 보내기
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -106,7 +115,7 @@ public class ReissueController {
         Cookie cookie = new Cookie(key, value);
         int koreaTime = (9 * 60 * 60);
         // 현재 시간에서 10분 후의 시간을 계산
-        cookie.setMaxAge(60 * 10  + koreaTime);
+        cookie.setMaxAge(60 * 10 + koreaTime);
         //cookie.setSecure(true);
         cookie.setPath("/");
         cookie.setHttpOnly(true); // 자바 스크립트가 해당 쿠기를 읽기만 가능하다. 이 쿠키를 자바스크립트에서 강제로 header에 담아서 보낼 순 없다. 이 쿠키는 HttpOnly라서 --> 대부분 서버는 httpOnly
