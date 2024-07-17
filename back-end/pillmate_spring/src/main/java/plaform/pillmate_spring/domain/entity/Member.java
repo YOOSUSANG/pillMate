@@ -3,8 +3,12 @@ package plaform.pillmate_spring.domain.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
-@Setter
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -22,6 +26,9 @@ public class Member {
     private String gender;
     private String email;
     private String role;
+
+    @OneToMany(fetch = LAZY, mappedBy = "member")
+    private final List<Take> takes = new ArrayList<>();
 
     // ***** 주입 메서드 *****
     public void changeNickname(String nickName) {
@@ -44,6 +51,7 @@ public class Member {
     public void changeGender(String gender) {
         this.gender = gender;
     }
+
     public void changeProfileImgUrl(String profileImgUrl) {
         this.profileImgUrl = profileImgUrl;
     }
@@ -64,9 +72,9 @@ public class Member {
     }
 
     // ***** 수정 메서드 *****
-    public static void initMember(Member member, String nickName, String sex) {
+    public static void initMember(Member member, String nickName, String gender) {
         member.changeNickname(nickName);
-        member.changeGender(sex);
+        member.changeGender(gender);
     }
 
     public static void updateMemberByOAuth(Member member, String name, String nickName, String email, String gender, String role) {
