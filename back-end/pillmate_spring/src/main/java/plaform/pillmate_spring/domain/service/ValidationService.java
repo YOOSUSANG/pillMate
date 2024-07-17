@@ -3,6 +3,7 @@ package plaform.pillmate_spring.domain.service;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 import plaform.pillmate_spring.domain.entity.Member;
+import plaform.pillmate_spring.domain.entity.Pill;
 
 import java.util.Optional;
 
@@ -20,6 +21,11 @@ public class ValidationService {
             return findOptionalMember.get();
         }else
             throw new BadRequestException("회원을 찾을 수 없습니다");
-
+    }
+    public static Pill validationPill(Optional<Pill> findOptionalPill) throws BadRequestException {
+        if(findOptionalPill.isPresent()) {
+            return findOptionalPill.get();
+        }else
+            throw new BadRequestException("해당 알약을 찾을 수 없습니다");
     }
 }
