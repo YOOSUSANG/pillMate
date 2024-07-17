@@ -57,7 +57,7 @@ const takingListReducer = (state, action) => {
             } else {
                 toast.success("복용 추가 완료", {autoClose: 2000})
                 const pillName = action.data.dl_name
-                takeFetchPost(springUrl, "pill/detail", {userId, pillName})
+                takeFetchPost(springUrl, "pill/take", {"name" : pillName})
                 newState = [...state, action.data]
             }
             break
@@ -65,7 +65,7 @@ const takingListReducer = (state, action) => {
         case 'OnRemove':{
             const pillName = action.data
             newState = state.filter((it) => it.dl_name !== action.data)
-            takeFetchPost(springUrl,"record",{userId,pillName})
+            takeFetchPost(springUrl,"pill/delete",{"name" : pillName})
             break
         }
         default:
@@ -77,6 +77,7 @@ const takingListReducer = (state, action) => {
 const takeFetchPost = (baseUrl, subUrl, pill) => {
   fetch(baseUrl + subUrl, {
       method: "POST",
+      credentials: 'include',
       headers: {
           'Content-Type': 'application/json',
       },
