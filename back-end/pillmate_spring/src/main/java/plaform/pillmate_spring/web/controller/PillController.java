@@ -1,5 +1,12 @@
 package plaform.pillmate_spring.web.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
@@ -7,82 +14,85 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import plaform.pillmate_spring.domain.entity.History;
 import plaform.pillmate_spring.domain.entity.Member;
+import plaform.pillmate_spring.domain.entity.Pill;
 import plaform.pillmate_spring.domain.oauth2.CustomOAuth2User;
-import plaform.pillmate_spring.domain.service.HistoryService;
 import plaform.pillmate_spring.domain.service.MemberService;
+import plaform.pillmate_spring.domain.service.PillService;
+import plaform.pillmate_spring.domain.service.TakeService;
 import plaform.pillmate_spring.web.dto.MemberInfoAfterJWTDto;
+import plaform.pillmate_spring.web.dto.PillRequestTakeDto;
 
-import java.security.Principal;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+
 @Slf4j
 @RestController
+@Tag(name = "공용 API", description = "로그인, 검증, 알약 관련")
 @RequiredArgsConstructor
 public class PillController {
 
 
     private final MemberService memberService;
-    private final HistoryService historyService;
+    private final PillService pillService;
+    private final TakeService takeService;
 
+
+    @Operation(summary = "회원 정보 조회")
+    @ApiResponse(responseCode = "200", description = "회원 정보 조회 성공", content = {
+            @Content(schema = @Schema(implementation = MemberInfoAfterJWTDto.class))
+    })
     @GetMapping("/user")
-    public MemberInfoAfterJWTDto getUserInfo(@AuthenticationPrincipal CustomOAuth2User customOAuth2User) throws BadRequestException {
+    public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal CustomOAuth2User customOAuth2User) throws BadRequestException {
         String username = customOAuth2User.getUsername();
         Member member = memberService.findUsername(username);
         MemberInfoAfterJWTDto memberInfoAfterJWTDto = new MemberInfoAfterJWTDto(member);
         log.info("user complete");
-        return memberInfoAfterJWTDto;
+        return ResponseEntity.ok(memberInfoAfterJWTDto);
     }
+
+    @Operation(summary = "JWT 검증")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "JWT 검증 성공")
+    })
     @PostMapping("/validation/jwt")
     public ResponseEntity<?> jwtValidation(@AuthenticationPrincipal CustomOAuth2User customOAuth2User) throws BadRequestException {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @PostMapping("/PillMyProfile")
-//    public Member changeUserValue(@RequestBody Map<String, String> changeData) {
-//        Set<String> keys = changeData.keySet();
-//        List<String> keyList = new ArrayList<>(keys);
-//        String key = keyList.get(0);
-//        String email = keyList.get(1);
-//        String password = changeData.get(email);
-//        if (Objects.equals(key, "img")) {
-//            System.out.println(changeData.get(key));
-//            Long userId = memberService.changeImg(email, password, changeData.get(key));
-//            Member changedImgMember = memberService.findUser(userId);
-//            return changedImgMember;
-//        }
-//        if (Objects.equals(key, "newNickname")) {
-//            Long userId = memberService.changeImg(email, password, changeData.get(key));
-//            Member changedNickMember = memberService.findUser(userId);
-//            return changedNickMember;
-//
-//        }
-//        if (Objects.equals(key, "newPassword")) {
-//            Long userId = memberService.changeImg(email, password, changeData.get(key));
-//            Member changePasswordMember = memberService.findUser(userId);
-//            return changePasswordMember;
-//        }
-//        return null;
+    @Operation(summary = "알약 복용")
+    @Parameter(name = "pillRequestTakeDto", description = "알약 이름을 받는 DTO")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "약품 복용 성공")
+    })
+    @PostMapping("/pill/take")
+    public ResponseEntity<?> joinHistory(@AuthenticationPrincipal CustomOAuth2User customOAuth2User, @RequestBody PillRequestTakeDto pillRequestTakeDto) throws BadRequestException {
+        String username = customOAuth2User.getUsername();
+        log.info("name : {}", pillRequestTakeDto.getName());
+        Member member = memberService.findUsername(username);
+        takeService.pillTakeOne(member.getId(), pillRequestTakeDto.getName());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Operation(summary = "알약 복용 취소")
+    @Parameter(name = "pillRequestTakeDto", description = "알약 이름을 받는 DTO")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "약품 복용 취소 성공")
+    })
+    @PostMapping("/pill/delete")
+    public ResponseEntity<?> removeHistory(@AuthenticationPrincipal CustomOAuth2User customOAuth2User, @RequestBody PillRequestTakeDto pillRequestTakeDto) throws BadRequestException {
+        String username = customOAuth2User.getUsername();
+        Member member = memberService.findUsername(username);
+        takeService.removeTakePill(member.getId(), pillRequestTakeDto.getName());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+//    //get은 PathVariable
+//    @GetMapping("/pill/detail/{id}")
+//    public List<Pill> findHistory(@PathVariable Long id) {
+//        List<Pill> takePill = pillService.findTakePill(id);
+//        return takePill;
 //    }
-    @PostMapping("/pill/detail")
-    public History joinHistory(@RequestBody History history) {
-        History joinHistory = historyService.join(history);
-        return joinHistory;
-    }
-    @PostMapping("/record")
-    public ResponseEntity<String>  removeHistory(@RequestBody Map<String, String> removeData) {
-        String userId = removeData.get("userId");
-        String pillName = removeData.get("pillName");
-        historyService.removeTakePill(Long.valueOf(userId),pillName);
-        return ResponseEntity.ok( "{\"message\": \"ok\"}");
-    }
-
-
-    //get은 PathVariable
-    @GetMapping("/pill/detail/{id}")
-    public List<History> findHistory(@PathVariable Long id) {
-        List<History> takePill = historyService.findTakePill(id);
-        return takePill;
-    }
 
 }
