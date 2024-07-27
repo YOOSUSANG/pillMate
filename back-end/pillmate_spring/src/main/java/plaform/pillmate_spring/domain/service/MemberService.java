@@ -5,7 +5,9 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import plaform.pillmate_spring.domain.dto.MemberLoginOAuth;
+import plaform.pillmate_spring.domain.entity.Basket;
 import plaform.pillmate_spring.domain.entity.Member;
+import plaform.pillmate_spring.domain.repository.BasketRepository;
 import plaform.pillmate_spring.domain.repository.MemberRepository;
 
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final BasketRepository basketRepository;
 
     @Transactional
     public Long join(MemberLoginOAuth memberLoginOAuth) throws BadRequestException {
@@ -24,6 +27,8 @@ public class MemberService {
         ValidationService.validationLoginMember(findOptionalMember);
         Member member = Member.createMemberByOAuth(memberLoginOAuth.getUsername(), memberLoginOAuth.getName(), memberLoginOAuth.getNickname(), memberLoginOAuth.getEmail(), memberLoginOAuth.getProfileImageUrl(), memberLoginOAuth.getGender(), memberLoginOAuth.getRole());
         Member joinMember = memberRepository.save(member);
+        Basket basket = Basket.createBasket(joinMember);
+        basketRepository.save(basket);
         return joinMember.getId();
     }
 

@@ -13,7 +13,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Member {
+public class Member extends BasicEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
@@ -29,6 +29,19 @@ public class Member {
 
     @OneToMany(fetch = LAZY, mappedBy = "member")
     private final List<Take> takes = new ArrayList<>();
+
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "basket_id")
+    private Basket basket;
+
+
+    @OneToMany(fetch = LAZY, mappedBy = "member")
+    private final List<Order> orders = new ArrayList<>();
+
+
+//    @OneToMany(fetch = LAZY, mappedBy = "member", orphanRemoval = true)
+//    private final List<Payment> payments = new ArrayList<>();
+
 
     // ***** 주입 메서드 *****
     public void changeNickname(String nickName) {
@@ -56,9 +69,15 @@ public class Member {
         this.profileImgUrl = profileImgUrl;
     }
 
-
+    // ***** 연관 메서드 *****
+    public void changeBasket(Basket basket) {
+        this.basket = basket;
+        if (basket != null)
+            basket.changeMember(this);
+    }
     // ***** 생성 메서드 *****
     public static Member createMemberByOAuth(String username, String name, String nickname, String email, String profileImgUrl, String gender, String role) {
+
         Member member = Member.builder()
                 .username(username)
                 .name(name)
