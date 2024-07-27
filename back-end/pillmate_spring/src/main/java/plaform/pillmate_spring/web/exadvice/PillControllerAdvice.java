@@ -19,4 +19,5 @@ public class PillControllerAdvice {
         return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
     }
 
+
 }
