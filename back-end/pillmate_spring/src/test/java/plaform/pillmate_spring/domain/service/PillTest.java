@@ -1,4 +1,4 @@
-package plaform.pillmate_spring;
+package plaform.pillmate_spring.domain.service;
 
 import jakarta.transaction.Transactional;
 import org.apache.coyote.BadRequestException;
@@ -11,9 +11,6 @@ import plaform.pillmate_spring.domain.dto.MemberLoginOAuth;
 import plaform.pillmate_spring.domain.dto.PillRequestData;
 import plaform.pillmate_spring.domain.entity.Member;
 import plaform.pillmate_spring.domain.entity.Take;
-import plaform.pillmate_spring.domain.service.PillService;
-import plaform.pillmate_spring.domain.service.MemberService;
-import plaform.pillmate_spring.domain.service.TakeService;
 
 import java.util.List;
 

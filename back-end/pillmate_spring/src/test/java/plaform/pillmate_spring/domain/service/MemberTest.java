@@ -1,4 +1,4 @@
-package plaform.pillmate_spring;
+package plaform.pillmate_spring.domain.service;
 
 
 import jakarta.transaction.Transactional;
@@ -11,11 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import plaform.pillmate_spring.domain.dto.MemberLoginOAuth;
 import plaform.pillmate_spring.domain.entity.Member;
-import plaform.pillmate_spring.domain.service.MemberService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
