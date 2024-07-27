@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import plaform.pillmate_spring.domain.entity.Member;
 import plaform.pillmate_spring.domain.entity.Pill;
-import plaform.pillmate_spring.domain.entity.PillOrder;
 import plaform.pillmate_spring.domain.entity.Take;
 import plaform.pillmate_spring.domain.repository.MemberRepository;
 import plaform.pillmate_spring.domain.repository.PillRepository;
@@ -43,7 +42,7 @@ public class TakeService {
 
     @Transactional
     public void removeTakePill(Long memberId, String name) {
-        takeRepository.deleteByMemberIdAndPillName(memberId,name);
+        takeRepository.deleteByMemberIdAndPillName(memberId, name);
     }
 
 }
