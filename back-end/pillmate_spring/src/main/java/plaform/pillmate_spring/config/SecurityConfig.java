@@ -54,7 +54,7 @@ public class SecurityConfig {
                         configuration.setMaxAge(3600L); // 요청에 대한 응답이 3600초 동안 캐시된다. 브라우저는 일정 시간 동알 동일한 요청에 대한 preflight 요청을 다시 보내지 않고 이전에 받은 응답을 사용할 수 있다.
 
 
-                        //우리쪽에서 데이터를 줄 경우 웹페이지에서 보이게 하는 응답 헤더들 -> 요청 관련
+                        //우리쪽에서 데이터를 줄 경우 웹페이지에서 보이게 하는 응답 헤더들 -> 응답 관련
                         configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
                         configuration.setExposedHeaders(Collections.singletonList("Authorization"));
 
@@ -81,10 +81,9 @@ public class SecurityConfig {
         http
                 .addFilterAfter(new JWTFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class);
 
-        http.addFilterBefore(new CustomLogoutFilter(jwtUtil,redisRefreshTokenRepository), LogoutFilter.class);
+        http.addFilterBefore(new CustomLogoutFilter(jwtUtil, redisRefreshTokenRepository), LogoutFilter.class);
         // accesstoken 없을 떄 작동하는 필터 추가
         http.addFilterAfter(new LoginDefaultFilter(), UsernamePasswordAuthenticationFilter.class);
-
 
 
         //oauth2
