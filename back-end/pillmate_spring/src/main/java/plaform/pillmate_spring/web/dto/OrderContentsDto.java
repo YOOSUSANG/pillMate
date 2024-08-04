@@ -15,19 +15,18 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderContentsDto {
-
-    @Schema(description = "결제고유번호", defaultValue = "ex) 12134213-223")
-    private String tid;
-    @Schema(description = "총 구매가격", defaultValue = "ex) 30000, 20000")
-    private int totalPrice;
+    @Schema(description = "주문 번호", defaultValue = "ex) 12134213-223")
+    private Long id;
+    @Schema(description = "주문 상태", defaultValue = "ex) 배송준비, 배송시작")
+    private String deliveryStatusKr;
     @Schema(description = "주문 날짜", defaultValue = "ex) 2024.07.24")
     private LocalDateTime orderTime;
     @Schema(description = "총 주문 상품", defaultValue = "ex)상품1, 상품2, 상품3")
     private List<BasketPillItemsDto> orderItems;
 
     public OrderContentsDto(Order order) {
-        this.tid = order.getPayment().getTid();
-        this.totalPrice = order.getBasket().itemTotalPrice();
+        this.id = order.getId();
+        this.deliveryStatusKr = order.getDelivery().getDeliveryStatus().getDescription();
         this.orderTime = order.getCreateDate();
         this.orderItems = order.getBasket().getBasketPillItems().stream().map((items) -> new BasketPillItemsDto(items)).collect(Collectors.toList());
 
