@@ -8,6 +8,7 @@ import plaform.pillmate_spring.domain.dto.PillRequestData;
 import plaform.pillmate_spring.domain.entity.Pill;
 import plaform.pillmate_spring.domain.repository.PillRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,6 +27,9 @@ public class PillService {
         return savePill;
     }
 
+    public List<Pill> findPillAll() {
+        return pillRepository.findAll();
+    }
     public Pill find(Long pillId) throws BadRequestException {
         Pill pill = findPill(pillId);
         return pill;
@@ -48,7 +52,6 @@ public class PillService {
         Pill pill = ValidationService.validationPill(findOptionalPill);
         return pill;
     }
-
     @Transactional
     public void AllPillRemove() {
         pillRepository.deleteAll();
