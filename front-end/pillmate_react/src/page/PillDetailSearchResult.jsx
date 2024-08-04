@@ -9,8 +9,9 @@ import {pillHandlerContext} from "../App"
 import {toast, ToastContainer} from "react-toastify";
 import PillAllNav from "../component/PillAllNav";
 import useAuthorization from "../validaiton/useauthorization";
+import BottomSheetModal from "../component/BottomSheetModal";
 
-
+const springUrl = "http://localhost:8080/"
 const PillDetailSearchResult = () => {
     useAuthorization()
     const navigate = useNavigate()
@@ -21,8 +22,8 @@ const PillDetailSearchResult = () => {
     const [methodText, setMethodText] = useState('');
     const [saveText, setSaveText] = useState('');
     const [displayText, setDisplayText] = useState('');
-
-
+    const [showModal, setShowModal] = useState(false)
+    const [count,setCount] = useState(1)
     useEffect(() => {
         const localData = localStorage.getItem("pillDetailState")
         if (localData) {
@@ -34,7 +35,7 @@ const PillDetailSearchResult = () => {
     }, []);
 
     const goProfile = () => {
-        navigate("/PillProfile")
+        navigate("/mypage")
     }
 
     const handleEffectivenessClick = () => {
@@ -46,7 +47,33 @@ const PillDetailSearchResult = () => {
     const handleSaveClick = () => {
         setDisplayText(detailState["dl_save"]);
     };
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
+    
+      const handleCloseModal = () => {
+        setShowModal(false);
+        fetch(springUrl + "basket/pills/add", {
+            method: "POST",
+            credentials: 'include',
+            body: JSON.stringify(
+                {
+                    pillId:detailState.id,
+                    quantity:count
+                }
+            ),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => {
 
+            })
+            .catch((error) => {
+      
+            })
+    };
     return (
         <div>
             <PillAllNav onClick={goProfile}></PillAllNav>
@@ -63,10 +90,15 @@ const PillDetailSearchResult = () => {
                     <button className="detail_effect" onClick={handleSaveClick}>보관법</button>
                 </section>
                 {displayText && <div className="display_text" style={{ whiteSpace: 'pre-line' }}>{displayText}</div>}
-                <MyButton type={'default'} text={"복용 이력에 추가"} onClick={() => {
-                    TakingOnCreate(detailState);
-                }}></MyButton>
-                <ToastContainer/>
+                {detailState.state === "search" && 
+                    <div>
+                        <MyButton type={'default'} text={"복용 이력에 추가"} onClick={() => {TakingOnCreate(detailState);}}></MyButton>
+                        <ToastContainer/>
+                    </div>}
+                    {detailState.state === 'store'&& <MyButton type={'default'} text={"구매하기"} onClick={handleOpenModal}></MyButton>}
+                    {detailState.state === 'basket'&& <MyButton type={'default'} text={"수량변경"} onClick={handleOpenModal}></MyButton>}
+                    {detailState.state === 'orderItem'&& <MyButton type={'default'} text={"재구매하기"} onClick={handleOpenModal}></MyButton>}
+                <BottomSheetModal show={showModal} onClose={handleCloseModal} count ={count} setCount={setCount}></BottomSheetModal>
             </div>
         </div>)
 }

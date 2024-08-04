@@ -63,7 +63,7 @@ const PillGeneralSearchList = () => {
 
     }, [currentSearch]);
     const goProfile = () => {
-        navigate("/PillProfile")
+        navigate("/mypage")
     }
     return (
         <div>
@@ -71,13 +71,13 @@ const PillGeneralSearchList = () => {
             <div>
                 {/* 검색하지 않은 경우*/}
                 {currentSearch["pillSearch"] && currentSearch["pillSearch"][0] === "not" && pillList.map((it) =>
-                    <PillListForm key={it.id} {...it} selectList={it} onClick={goDetails}></PillListForm>
+                    <PillListForm key={it.id} {...it} selectList={it} onClick={goDetails} currentState={"search"}></PillListForm>
                 )}
             </div>
             <div>
                 {/* 검색한 경우 */}
                 {currentSearch["pillSearch"] && currentSearch["pillSearch"][0] !== "not" && pillListTextContains.map((it) =>
-                    <PillListForm key={it.id} {...it} selectList={it} onClick={goDetails}></PillListForm>
+                    <PillListForm key={it.id} {...it} selectList={it} onClick={goDetails} currentState={"search"}></PillListForm>
                 )}
             </div>
         </div>

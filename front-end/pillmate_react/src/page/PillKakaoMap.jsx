@@ -17,7 +17,7 @@ const PillKakaoMap = () => {
     const navigate = useNavigate()
 
     const goProfile = () => {
-        navigate("/PillProfile")
+        navigate("/mypage")
     }
     // This function is called when a marker is clicked
     const handleMarkerClick = (marker) => {

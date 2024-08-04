@@ -21,6 +21,7 @@ function useRefresh(){
                 //     navigate("/");
                 // }, 0.00001);
             }
+            window.location.reload();
         })
         .catch((error) => {
             console.log(error);

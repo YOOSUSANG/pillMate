@@ -30,7 +30,7 @@ const PillRecord = () => {
 
     }
     const goProfile = () => {
-        navigate("/PillProfile")
+        navigate("/mypage")
     }
 
 

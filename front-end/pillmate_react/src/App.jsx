@@ -16,6 +16,11 @@ import PillImageFindSuccess from "./page/PillImageFindSuccess";
 import  PillDetailRecordResult from "./page/PillDetailRecordResult"
 import PillKakaoMap from './page/PillKakaoMap';
 import Notfound from './page/Notfound';
+import OrderSucess from './page/OrderSucess';
+import PillPurchase from './page/PillPurchase';
+import PillOrderList from './page/PillOrderList';
+import PillCancelList from './page/PillCancelList';
+import PillOrderBasket from './page/PillOrderBasket';
 const springUrl = "http://localhost:8080/"
 const pillInformationClickReducer = (state, action) => {
     let newState = {}
@@ -74,6 +79,11 @@ const takingListReducer = (state, action) => {
     localStorage.setItem("takingStatus", JSON.stringify(newState))
     return newState
 }
+// 구매 reducer
+const purchaseStateListReducer = (state, action) =>{
+
+
+}
 const takeFetchPost = (baseUrl, subUrl, pill) => {
   fetch(baseUrl + subUrl, {
       method: "POST",
@@ -92,7 +102,6 @@ const takeFetchPost = (baseUrl, subUrl, pill) => {
 
       })
 }
-
 export const PillMateLoginStateContext = createContext()
 export const pillHandlerContext = createContext()
 export const pillDetailsContext = createContext()
@@ -102,6 +111,7 @@ function App() {
     const [DetailState, setDetailState] = useState({})
     const [state, pillClickDispatch] = useReducer(pillInformationClickReducer, {})
     const [takingStatus, takingDispatch] = useReducer(takingListReducer, [])
+    const [purchaseStatus, purchaseDispatch] = useReducer(purchaseStateListReducer,[])
 
     //맨 처음 web 화면이 갱신될 떄 처음 실행되는 부분으로 무조건 localStorage안에 pillSearchState라는 이름으로 저장됨
     useEffect(() => {
@@ -114,7 +124,6 @@ function App() {
             }
         })
     }, [])
-
     useEffect(() => {
         // localStorage.setItem("userLogin",JSON.stringify({}))
         const loginStorage = localStorage.getItem("userLogin");
@@ -169,6 +178,8 @@ function App() {
         window.location.reload();
 
     }, [])
+    // pillStore 로직 작성
+    
 
 
     const pillClickDetails = useCallback((detailState) => {
@@ -182,22 +193,27 @@ function App() {
                 <pillDetailsContext.Provider value={{pillClickDetails}}>
                   <div className="App">
                       <Routes>
-                          <Route path="/" element={<PillLogin></PillLogin>}></Route>
-                          <Route path='/generalsearch' element={<PillGeneralSearch></PillGeneralSearch>}></Route>
-                          <Route path='/imagesearch' element={<PillImageSearch></PillImageSearch>}></Route>
+                          <Route path="/" element={<PillLogin/>}></Route>
+                          <Route path='/generalsearch' element={<PillGeneralSearch/>}></Route>
+                          <Route path='/imagesearch' element={<PillImageSearch/>}></Route>
                           <Route path='/imagesearch/detail'
-                                  element={<PillImageFindSuccess></PillImageFindSuccess>}></Route>
-                          <Route path='/record' element={<PillRecord></PillRecord>}></Route>
+                                  element={<PillImageFindSuccess/>}></Route>
+                          <Route path='/record' element={<PillRecord/>}></Route>
                           <Route path={"/generalSearch/list"}
-                                  element={<PillGeneralSearchList></PillGeneralSearchList>}></Route>
+                                  element={<PillGeneralSearchList/>}></Route>
                           <Route path={"/pill/detail"}
                                   element={<PillDetailSearchResult
-                                      detailState={DetailState}></PillDetailSearchResult>}></Route>
-                          <Route path={"/record/detail"} element={<PillDetailRecordResult></PillDetailRecordResult>}></Route>
-                          <Route path={'/Login'} element={<Login></Login>}></Route>
-                          <Route path={'/PillProfile'} element={<PillProfile></PillProfile>}></Route>
-                          <Route path={'/PillMyProfile'} element={<PillMyProfile></PillMyProfile>}></Route>
-                          <Route path={"/map"} element={<PillKakaoMap></PillKakaoMap>}></Route>
+                                      detailState={DetailState}/>}></Route>
+                          <Route path={"/record/detail"} element={<PillDetailRecordResult/>}></Route>
+                          <Route path={'/Login'} element={<Login/>}></Route>
+                          <Route path={'/mypage'} element={<PillProfile/>}></Route>
+                          <Route path={'/mypage/detail'} element={<PillMyProfile/>}></Route>
+                          <Route path={"/map"} element={<PillKakaoMap/>}></Route>
+                          <Route path="/order/success" element={<OrderSucess/>}></Route>
+                          <Route path="/pill_store" element = {<PillPurchase/>}></Route>
+                          <Route path="/mypage/order_list" element = {<PillOrderList/>}></Route>
+                          <Route path="/mypage/refund_list" element = {<PillCancelList/>}></Route>
+                          <Route path="/orders/basket" element={<PillOrderBasket/>}></Route>
                           <Route path="*" element = {<Notfound/>}></Route>
                       </Routes>
                       </div>

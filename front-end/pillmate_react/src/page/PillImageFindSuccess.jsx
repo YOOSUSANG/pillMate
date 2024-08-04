@@ -35,7 +35,7 @@ const PillImageFindSuccess = () => {
         fetchData()
     }, []);
     const goProfile = () => {
-        navigate("/PillProfile")
+        navigate("/mypage")
     }
     return (
         <div>

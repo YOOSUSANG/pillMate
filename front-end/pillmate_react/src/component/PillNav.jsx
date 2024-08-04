@@ -5,7 +5,7 @@ import {pillHandlerContext} from "../App"
 
 const springUrl = "http://localhost:8080/"
 const pillAllList = pillAllInformation();
-const PillNav = ({leftChild, subLineOne, centerChild, subLineTwo, rightChild, state}) => {
+const PillNav = ({leftChild, subLineOne, centerChild, subLineTwo, rightChild,centerReightChid, state}) => {
     const {takingDispatch} = useContext(pillHandlerContext);
     const navigate = useNavigate()
     const takeFetchGet = (baseUrl, subUrl, userId) => {
@@ -30,8 +30,9 @@ const PillNav = ({leftChild, subLineOne, centerChild, subLineTwo, rightChild, st
     // 카카오톡 지도 api로 변경
     const pillBoardTextClick = () => {
         navigate("/map")
-
-
+    }
+    const pillStoreTextClick = ()=> {
+        navigate("/pill_store")
     }
     const pillFindTextClick = () => {
         navigate("/generalSearch")
@@ -50,8 +51,19 @@ const PillNav = ({leftChild, subLineOne, centerChild, subLineTwo, rightChild, st
             <div className={["nav_leftChild", `nav_leftChild_${state}`].join(" ")}
                  onClick={pillBoardTextClick}> {leftChild} </div>
             <div className="nav_subLineOne"> {subLineOne} </div>
-            <div className={["nav_centerChild", `nav_centerChild_${state}`].join(" ")}
-                 onClick={pillFindTextClick}> {centerChild} </div>
+            { state === 'common' 
+            ?
+                <div className={["nav_centerChild", `nav_centerChild_${state}`].join(" ")}
+                 > {centerChild} </div>
+            :
+                <div className={["nav_centerChild", `nav_centerChild_${state}`].join(" ")}
+                onClick={pillFindTextClick}> {centerChild} </div>
+            }
+            <div className="nav_subLineOne"> {subLineOne} </div>
+
+            <div className={["nav_centerRightChild", `nav_centerRightChild_${state}`].join(" ")}
+                 onClick={pillStoreTextClick}> {centerReightChid} </div>
+            
             <div className="nav_subLineTwo"> {subLineTwo} </div>
             <div className={["nav_rightChild", `nav_rightChild_${state}`].join(" ")}
                  onClick={pillRecordTextClick}> {rightChild} </div>

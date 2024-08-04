@@ -23,7 +23,7 @@ const PillDetailTakeResult = () => {
 
     }, []);
     const goProfile = () => {
-        navigate("/PillProfile")
+        navigate("/mypage")
     }
     return (
         <div>

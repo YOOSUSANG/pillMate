@@ -133,7 +133,12 @@ body {
 
 .pillNav .nav_centerChild_pillFind {
     color: #64C964;
-
+}
+.pillNav .nav_centerChild_common{
+    color: #64C964;
+    justify-content: center;
+    width: 12000%;
+    font-weight: bold;
 }
 
 .pillNav .nav_centerChild_pillDetailFind {
@@ -155,9 +160,16 @@ body {
 
 .pillNav .nav_rightChild_pillRecord {
     color: #64C964;
-
 }
-
+.pillNav .nav_centerRightChild{
+    width: 40%;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+.pillNav .nav_centerRightChild_pillStore {
+    color: #64C964;
+}
 /*PillSubNav.js*/
 .pillSubNav {
     display: flex;
@@ -279,8 +291,31 @@ body {
     margin-left: 20px;
     margin-bottom: 120px;
     margin-right: 20px;
-
 }
+.MyButton_orderDelete{
+    color: #FF0000;
+    background-color: #EFC7C7;
+    font-size: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.MyButton_basket {
+    background-color: #4CAF50;
+    color: white;
+    border: 2px solid #4CAF50;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    font-size: 12px;
+    height: 50px;
+    width: 50px;
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .MyButton_beforeEdit{
     color: #464646;
     background-color: #CACCCA;
@@ -767,6 +802,7 @@ body {
 .options {
     margin-top: 40px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     width: 100%;
 }
@@ -787,7 +823,8 @@ body {
     font-weight: bold;
     cursor: pointer;
     font-size: 20px;
-    padding: 18px;
+    padding-top: 30px;
+    width: 25%;
 }
 
 /* Add a hover effect for the text buttons */
@@ -1006,4 +1043,106 @@ li {
 .phone-number {
     text-align: left;
     color: #666; /* Lighter text color if there's no phone number */
+}
+
+/* OrderSuccess */
+.common-layout{
+    display: flex;
+    flex-direction: column; /* 세로로 정렬하려면 column으로 설정 */
+    justify-content: center; /* 수직 방향으로 가운데 정렬 */
+    align-items: center; /* 수평 방향으로 가운데 정렬 */
+    margin-top: 50px;
+    font-weight: bold;
+}
+.orders-layout{
+    display: flex;
+    flex-direction: column; /* 세로로 정렬하려면 column으로 설정 */
+    align-items: center; /* 수평 방향으로 가운데 정렬 */
+    font-weight: bold;
+}
+.common-layout .successComplete{
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-size: 24px;
+    text-align: center;
+    padding-bottom: 20px;
+    width: 80%;
+
+}
+.common-layout .order-layout{
+    background-color: white;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    min-height: 60vh;
+    height: 100%;
+    box-shadow: rgba(100, 100, 100, 0.4) 0px 0px 29px 0px;
+    padding: 0px 20px;
+}
+.common-layout .order-layout .order-content{
+    display: flex;
+    flex-direction: column; /* 세로로 정렬하려면 column으로 설정 */
+    justify-content: center; /* 수직 방향으로 가운데 정렬 */
+    align-items: center; /* 수평 방향으로 가운데 정렬 */
+    margin-top: 30px;
+    font-weight: bold;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #ECECEC;
+}
+.MyButton_order{
+   margin-left: 147px;
+}
+
+/* 장바구니 관련 하단 창 */
+.bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+}
+  
+.bottom-sheet.show {
+    transform: translateY(70%);
+    background-color: white;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 300px;
+    min-height: 20vh;
+    height: 100%;
+    box-shadow: rgba(100, 100, 100, 0.4) 0px 0px 29px 0px;
+    padding: 0px 20px;
+}
+  
+.bottom-sheet-content {
+    padding: 16px;
+}
+  
+
+  
+.actions {
+display: flex;
+flex-direction: column; /* 세로로 정렬하려면 column으로 설정 */
+justify-content: center; /* 수직 방향으로 가운데 정렬 */
+align-items: center; /* 수평 방향으로 가운데 정렬 */
+margin-top: 100px;
+font-weight: bold;
+padding-bottom: 30px;
+}
+
+.btn {
+padding: 12px 24px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+margin-top: 30px;
+}
+
+.btn-buy {
+background-color: #0073CF;
+color: white;
+font: bold;
 }

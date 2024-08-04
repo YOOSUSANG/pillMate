@@ -23,14 +23,14 @@ const PillListForm = ({
         <div className="pillListItem">
             <div onClick={() => {
                 onClick();
-                pillClickDetails(selectList)
+                pillClickDetails({...selectList, state:currentState})
             }}>
                 <img className="pill_img_wrapper" src={img_key} onError={(e) => e.target.src = defaultImage}/>
                 <div className="pill_name">{dl_name}</div>
             </div>
             <div className="info_wrapper" onClick={() => {
                 onClick()
-                pillClickDetails(selectList)
+                pillClickDetails({...selectList, state:currentState})
             }}>
                 <div className="pill_class_no"><span style={{fontWeight: "bold"}}>분류:</span> {dl_class_no}</div>
                 <div className="pill_material"><span style={{fontWeight: "bold"}}>성분:</span> {dl_material}</div>

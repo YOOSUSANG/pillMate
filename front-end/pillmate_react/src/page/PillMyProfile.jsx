@@ -20,7 +20,7 @@ const PillMyProfile = () => {
     }, []);
 
     const goProfile = () => {
-        navigate("/PillProfile");
+        navigate("/mypage");
     }
 
     return (

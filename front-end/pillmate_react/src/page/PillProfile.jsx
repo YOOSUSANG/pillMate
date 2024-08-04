@@ -57,16 +57,25 @@ const PillProfile = () => {
         });
     }
     const goProfile = () => {
-        navigate("/PillProfile")
+        navigate("/mypage")
     }
     const goMyProfile = () => {
-        navigate("/PillMyProfile")
+        navigate("/mypage/detail")
     }
     const goPharmacy = () => {
         navigate("/map")
     }
     const goPillSearch = () => {
         navigate("/generalsearch")
+    }
+    const goPillPurchase = () => {
+        navigate("/pill_store")
+    }
+    const goOrdersuccessList = () => {
+        navigate("/mypage/order_list")
+    }
+    const goOrderRefundList = () => {
+        navigate("/mypage/refund_list")
     }
     const goTakeRecord = () => {
         const loginStorage = localStorage.getItem("userLogin");
@@ -99,8 +108,11 @@ const PillProfile = () => {
             </div>
             <div className="options">
                 <button type="button" className="option-button" onClick={goPharmacy}>주변 약국</button>
-                <button type="button" className="option-button" onClick={goPillSearch}>약 검색</button>
+                <button type="button" className="option-button" onClick={goPillPurchase}>약품 구매</button>
+                <button type="button" className="option-button" onClick={goPillSearch}>약품 찾기</button>
                 <button type="button" className="option-button" onClick={goTakeRecord}>복용 이력</button>
+                <button type="button" className="option-button" onClick={goOrdersuccessList}>주문 목록</button>
+                <button type="button" className="option-button" onClick={goOrderRefundList}>환불 목록</button>
             </div>
         </div>
     );

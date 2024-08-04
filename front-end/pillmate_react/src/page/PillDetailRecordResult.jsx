@@ -24,7 +24,7 @@ const PillDetailRecordResult = ()=>{
     }, []);
 
     const goProfile = () => {
-        navigate("/PillProfile")
+        navigate("/mypage")
     }
 
     const handleEffectivenessClick = () => {

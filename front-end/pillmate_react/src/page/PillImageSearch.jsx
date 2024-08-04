@@ -44,7 +44,7 @@ const PillImageSearch = () => {
     };
 
     const goProfile = () => {
-        navigate("/PillProfile")
+        navigate("/mypage")
     }
     return (
         <div>

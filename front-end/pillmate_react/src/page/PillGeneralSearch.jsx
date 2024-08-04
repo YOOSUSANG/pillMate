@@ -84,10 +84,12 @@ const PillGeneralSearch = () => {
             })
     },[])
 
+
+
      
 
     const goProfile = () => {
-        navigate("/PillProfile")
+        navigate("/mypage")
     }
 
     return (
