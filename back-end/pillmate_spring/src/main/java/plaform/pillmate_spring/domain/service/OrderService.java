@@ -57,7 +57,8 @@ public class OrderService {
     @Transactional
     public void removeOrder(Long orderId) throws BadRequestException {
         Order order = findOrder(orderId);
-        DeletePayment deletePayment = DeletePayment.createDeletePayment("해당 내역은 삭제된 내역입니다.", order.getBasket().itemTotalPrice(), "tid");
+        String tid = order.getPayment().getTid();
+        DeletePayment deletePayment = DeletePayment.createDeletePayment("해당 내역은 삭제된 내역입니다.", order.getBasket().itemTotalPrice(), tid);
         DeletePayment saveDeletePayment = paymentRepository.save(deletePayment);
         paymentRepository.deleteById(order.getPayment().getId());
         DeletePayment.stateChangeToDelete(saveDeletePayment, order);
