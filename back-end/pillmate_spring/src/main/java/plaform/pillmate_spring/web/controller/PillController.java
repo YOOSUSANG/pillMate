@@ -20,11 +20,9 @@ import plaform.pillmate_spring.domain.oauth2.CustomOAuth2User;
 import plaform.pillmate_spring.domain.service.MemberService;
 import plaform.pillmate_spring.domain.service.PillService;
 import plaform.pillmate_spring.domain.service.TakeService;
-import plaform.pillmate_spring.web.dto.MemberInfoAfterJWTDto;
-import plaform.pillmate_spring.web.dto.PillRequestTakeDto;
+import plaform.pillmate_spring.web.dto.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -87,6 +85,16 @@ public class PillController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Operation(summary = "상품 조회")
+    @ApiResponse(responseCode = "200", description = "상품 조회 성공", content = {
+            @Content(schema = @Schema(implementation = PillRegisterInfoDto.class))
+    })
+    @GetMapping("/pill_register")
+    public ResponseEntity<?> getPills() {
+        List<Pill> pillAll = pillService.findPillAll();
+        List<PillRegisterInfoDto> pillRegisterInfoDtos = pillAll.stream().map((item) -> new PillRegisterInfoDto(item)).toList();
+        return ResponseEntity.ok().body(new JsonResult<>(pillRegisterInfoDtos));
+    }
 
 //    //get은 PathVariable
 //    @GetMapping("/pill/detail/{id}")
