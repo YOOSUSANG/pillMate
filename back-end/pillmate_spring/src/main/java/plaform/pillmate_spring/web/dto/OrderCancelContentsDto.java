@@ -16,18 +16,19 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class OrderCancelContentsDto {
 
-    @Schema(description = "결제고유번호", defaultValue = "ex) 12134213-223")
-    private String tid;
-    @Schema(description = "총 취소 가격", defaultValue = "ex) 30000, 20000")
-    private int totalPrice;
+    @Schema(description = "주문 번호", defaultValue = "ex) 12134213-223")
+    private Long id;
+
+    @Schema(description = "환불 상태", defaultValue = "ex) 반품, 취소")
+    private String orderStatus;
     @Schema(description = "주문 취소 날짜", defaultValue = "ex) 2024.07.24")
     private LocalDateTime cancelTime;
     @Schema(description = "총 주문 취소 상품", defaultValue = "ex) 상품1, 상품2, 상품3")
     private List<BasketPillItemsDto> orderItems;
 
     public OrderCancelContentsDto(Order order) {
-        this.tid = order.getPayment().getTid();
-        this.totalPrice = order.getBasket().itemTotalPrice();
+        this.id = order.getId();
+        this.orderStatus = order.getPayment().getContent();
         this.cancelTime = order.getUpdateDate();
         this.orderItems = order.getBasket().getBasketPillItems().stream().map((items) -> new BasketPillItemsDto(items)).collect(Collectors.toList());
 
