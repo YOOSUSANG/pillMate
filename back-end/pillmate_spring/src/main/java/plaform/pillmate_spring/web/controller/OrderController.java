@@ -16,20 +16,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import plaform.pillmate_spring.domain.entity.Basket;
-import plaform.pillmate_spring.domain.entity.BasketPillItem;
-import plaform.pillmate_spring.domain.entity.Member;
-import plaform.pillmate_spring.domain.entity.Order;
+import plaform.pillmate_spring.domain.entity.*;
 import plaform.pillmate_spring.domain.kakaopay.KakaoPayProperties;
 import plaform.pillmate_spring.domain.kakaopay.dto.*;
 import plaform.pillmate_spring.domain.kakaopay.service.PayService;
 import plaform.pillmate_spring.domain.oauth2.CustomOAuth2User;
+import plaform.pillmate_spring.domain.repository.OrderInfoRepository;
 import plaform.pillmate_spring.domain.service.MemberService;
 import plaform.pillmate_spring.domain.service.OrderService;
 import plaform.pillmate_spring.domain.service.PaymentService;
 import plaform.pillmate_spring.web.dto.JsonResult;
 import plaform.pillmate_spring.web.dto.OrderCancelContentsDto;
 import plaform.pillmate_spring.web.dto.OrderContentsDto;
+import plaform.pillmate_spring.web.dto.OrderSuccessDto;
 
 import java.io.IOException;
 import java.net.URI;
@@ -46,6 +45,7 @@ public class OrderController {
     private final OrderService orderService;
     private final PaymentService paymentService;
     private final KakaoPayProperties kakaoPayProperties;
+    private final OrderInfoRepository orderInfoRepository;
     private final CommonPayInfo commonPayInfo = new CommonPayInfo();
 
 
@@ -110,14 +110,18 @@ public class OrderController {
                 .build();
         KakaopayApproveResponseDto kakaopayApproveResponseDto = payService.kakaoPayApprove(dto);
         // 결제 내역 저장 후 주문 완료라는 페이지로 넘기기(수정필요)-> 이떄 302로 redirect
-        String redirectUrl = "http://localhost:5173/PillProfile";
+        String redirectUrl = "http://localhost:5173/order/success";
         HttpHeaders httpHeaders = new HttpHeaders();
         // location에 redirect 정보 넣기
         httpHeaders.setLocation(URI.create(redirectUrl));
         // 주문 로직 완료
-        orderService.order(member.getId(), "주문 성공!", commonPayInfo.getTid());
+        Long orderId = orderService.order(member.getId(), "주문", commonPayInfo.getTid());
+        Order order = orderService.orderSingleCheck(orderId);
+        DeliveryStatus deliveryStatus = order.getDelivery().getDeliveryStatus();
+        OrderInfo orderInfo = OrderInfo.createOrderInfo(kakaopayApproveResponseDto.getTid(), username, kakaopayApproveResponseDto.getItem_name(), kakaopayApproveResponseDto.returnTotal(), deliveryStatus);
+        orderInfoRepository.save(orderInfo);
         // 302:  POST -> GET
-        return ResponseEntity.status(HttpStatus.FOUND).headers(httpHeaders).body(kakaopayApproveResponseDto);
+        return ResponseEntity.status(HttpStatus.FOUND).headers(httpHeaders).build();
     }
 
     @Operation(summary = "결제 환불")
@@ -138,7 +142,7 @@ public class OrderController {
                 .build();
         KakaopayCancelResponseDto kakaopayCancelResponseDto = payService.kakaoPayCancel(dto);
         // 환불 요청
-        orderService.orderCancel(orderId, "주문 취소..", tid);
+        orderService.orderCancel(orderId, "반품", tid);
         return ResponseEntity.ok().body(kakaopayCancelResponseDto);
     }
 
@@ -157,7 +161,7 @@ public class OrderController {
 
     @Operation(summary = "회원 주문취소목록 조회")
     @ApiResponse(responseCode = "200", description = "주문취소목록 조회 성공", content = {
-            @Content(schema = @Schema(implementation = OrderContentsDto.class))
+            @Content(schema = @Schema(implementation = OrderCancelContentsDto.class))
     })
     @GetMapping("/members/cancels")
     public ResponseEntity<?> getMemberCancelOrders(@AuthenticationPrincipal CustomOAuth2User customOAuth2User) throws BadRequestException {
@@ -174,6 +178,19 @@ public class OrderController {
     public ResponseEntity<?> deleteOrder(@AuthenticationPrincipal CustomOAuth2User customOAuth2User, @PathVariable(name = "orderId") Long orderId) throws BadRequestException {
         orderService.removeOrder(orderId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Operation(summary = "주문완료 조회")
+    @ApiResponse(responseCode = "200", description = "주문완료 조회 성공", content = {
+            @Content(schema = @Schema(implementation = OrderSuccessDto.class))
+    })
+    @PostMapping("/order_info")
+    public ResponseEntity<?> getOrderInfo(@AuthenticationPrincipal CustomOAuth2User customOAuth2User) throws BadRequestException {
+        String username = customOAuth2User.getUsername();
+        OrderInfo findOrderInfo = orderInfoRepository.findByUsername(username);
+        OrderSuccessDto orderSuccessDto = new OrderSuccessDto(findOrderInfo);
+        orderInfoRepository.delete(findOrderInfo);
+        return ResponseEntity.ok().body(orderSuccessDto);
     }
 
 
