@@ -59,7 +59,8 @@ public class JWTFilter extends OncePerRequestFilter {
             //response body
             PrintWriter writer = response.getWriter();
             writer.print("access token expired");
-
+            Cookie deleteAccessCookie = createDeleteAccessCookie();
+            response.addCookie(deleteAccessCookie);
             //response status 401 응답코드 -> 권한없음 -> 프론트측에게 응답넘기기 -> 협의 이후 프론트측에서 reissue 에게 요청
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return ;
@@ -108,5 +109,11 @@ public class JWTFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         //정상 필터 체인 흐름
         filterChain.doFilter(request, response);
+    }
+    private Cookie createDeleteAccessCookie() {
+        Cookie cookie = new Cookie("Authorization", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        return cookie;
     }
 }
