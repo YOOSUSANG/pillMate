@@ -17,7 +17,22 @@ PillMate는 사용자가 의약품을 검색할 때 겪는 불편함을 해소�
 
 ## 개발환경
 ![캡처_2024_06_27_02_04_42_811](https://github.com/YOOSUSANG/pillMate/assets/41133135/3c267694-caa3-4a4b-b6a9-756e6592d33f)
+## 환경설정
+CUDA version은 Compute capability 따라 다르므로 개인 Compute capability를 확인하고 설치하세요.
 
+
++ gpu  mx450
++ Python 3.6+
++ CUDA 11.6
++ cuDNN 8.3.2
++ Pytorch 1.12.x ~ 1.13.x
++ numpy 1.9x
+
+## 유지보수 계획
+- [x] OAuth2 소셜 로그인 (네이버, 카카오, 구글) + JWT 추가
+- [x] 이미지 저장소 AWS S3로 변경
+- [x] 약품 구매시 카카오페이를 통한 결제서비스 추가
+- [x] Swagger 추가
 ## checkpoint
 resnet/resnetTest/checkpoint/resnet18_pill.pth
 
