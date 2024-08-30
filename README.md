@@ -36,11 +36,5 @@ CUDA version은 Compute capability 따라 다르므로 개인 Compute capability
 ## checkpoint
 resnet/resnetTest/checkpoint/resnet18_pill.pth
 
-## 팀원
-|이름|학과|역할|
-|------|---|---|
-|조동인|디지털미디어학과|프론트엔드,  기획, AI|
-|유수상|디지털미디어학과|프론트엔드, 백엔드,  AI|
-
 ## 네트워크 참고
 https://github.com/kuangliu/pytorch-cifar/tree/master
